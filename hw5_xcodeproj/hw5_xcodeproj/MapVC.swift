@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 
 class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var placeDescLabel: UILabel!
@@ -88,17 +87,27 @@ class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             // Not favorited. Add to favorite.
             favBtn.isSelected = true
             DataManager.saveFavorites(self.selectedAnnotation)
-            
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let favoriteVC = segue.destination as! FavoritesVC
+        favoriteVC.delegate = self
     }
 }
 
 
-//extension MapVC: PlacesFavoritesDelegate {
-//    func favoritePlace(name: String) {
-//    // Update the map view based on the favorite
-//    // place that was passed in
-//
-//        
-//    }
-//}
+extension MapVC: PlacesFavoritesDelegate {
+    func favoritePlace(_ favPlaceDct: Dictionary<String, Any>) {
+    // Update the map view based on the favorite
+    // place that was passed in
+        placeNameLabel.text = favPlaceDct["name"] as? String
+        placeDescLabel.text = favPlaceDct["desc"] as? String
+        favoriteBtn.isEnabled = true
+        
+        let center = CLLocationCoordinate2DMake(favPlaceDct["lat"] as! CLLocationDegrees, favPlaceDct["long"] as! CLLocationDegrees)
+        let span = MKCoordinateSpan.init(latitudeDelta: 0.001, longitudeDelta: 0.001)
+        let viewRegion = MKCoordinateRegion.init(center: center, span: span)
+        mapView.setRegion(viewRegion, animated: true)
+    }
+}

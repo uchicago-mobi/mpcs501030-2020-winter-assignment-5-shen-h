@@ -59,10 +59,12 @@ public class DataManager {
         
         let placeSubDct = [
             "lat": selectedAnnotation.coordinate.latitude,
-            "long": selectedAnnotation.coordinate.longitude
+            "long": selectedAnnotation.coordinate.longitude,
+            "name": selectedAnnotation.title,
+            "desc": selectedAnnotation.subtitle
         ]
         
-        favPlacesAnnoDct[selectedAnnotation.title!!] = placeSubDct
+        favPlacesAnnoDct[selectedAnnotation.title!!] = placeSubDct as [String : Any]
         UserDefaults.standard.set(favPlacesAnnoDct, forKey: "favPlacesAnnoDct")
         
         if debug {
@@ -87,6 +89,6 @@ public class DataManager {
 }
 
 
-//protocol PlacesFavoritesDelegate: class {
-//    func favoritePlace(name: String) -> Void
-//}
+protocol PlacesFavoritesDelegate: class {
+    func favoritePlace(_ favPlaceDct: Dictionary<String, Any>) -> Void
+}

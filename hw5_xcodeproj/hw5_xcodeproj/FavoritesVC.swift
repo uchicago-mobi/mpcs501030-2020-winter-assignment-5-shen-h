@@ -9,7 +9,7 @@
 import UIKit
 
 class FavoritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-//    weak var delegate: PlacesFavoritesDelegate?
+    weak var delegate: PlacesFavoritesDelegate?
     
     let favPlacesAnnoDct = UserDefaults.standard.object(forKey: "favPlacesAnnoDct")
         as? Dictionary<String, Dictionary<String, Any>> ?? Dictionary<String, Dictionary<String, Any>>()
@@ -28,31 +28,17 @@ class FavoritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if debug {"Selected row: \(favPlacesAnnoDctArr[indexPath.row].key)"}
-        let lat = favPlacesAnnoDctArr[indexPath.row].value["lat"]
-        let long = favPlacesAnnoDctArr[indexPath.row].value["long"]
+        let favPlacesDct = favPlacesAnnoDctArr[indexPath.row].value
+        dismiss(animated: true, completion: {})
+        delegate?.favoritePlace(favPlacesDct)        
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     @IBAction func touchXMark(_ sender: Any) {
         dismiss(animated: true, completion: {})
     }
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
