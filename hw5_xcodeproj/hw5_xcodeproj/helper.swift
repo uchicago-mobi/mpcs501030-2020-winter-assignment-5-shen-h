@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-let debug = true
+let debug = false
 
 class Place: MKPointAnnotation {
     
@@ -86,6 +86,10 @@ public class DataManager {
     }
 
     static func listFavorites() {}
+    
+    static func clearFavorite() {
+        UserDefaults.standard.set(Dictionary<String, Dictionary<String, Any>>(), forKey: "favPlacesAnnoDct")
+    }
 }
 
 

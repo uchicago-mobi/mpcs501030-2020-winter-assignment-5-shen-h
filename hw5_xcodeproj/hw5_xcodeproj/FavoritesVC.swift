@@ -41,4 +41,8 @@ class FavoritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         dismiss(animated: true, completion: {})
     }
 
+    @IBAction func touchedClearAllFavorites(_ sender: Any) {
+        DataManager.clearFavorite()
+        dismiss(animated: true, completion: {})
+    }
 }
